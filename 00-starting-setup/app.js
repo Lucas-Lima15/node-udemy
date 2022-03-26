@@ -50,7 +50,6 @@ Order.belongsToMany(Product, { through: OrderItem });
 sequelize.sync()
 .then(result => {
   return User.findByPk(1);
-  // console.log(result);
 })
 .then(user => {
   if (!user) {
