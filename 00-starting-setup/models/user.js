@@ -32,6 +32,7 @@ class User {
       .find({_id: new mongodb.ObjectId(userId)})
       .next()
       .then(user => {
+        console.log(user);
         return user;
       })
       .catch(err => {
