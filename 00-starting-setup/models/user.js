@@ -2,9 +2,10 @@ const mongodb = require('mongodb');
 const getDb = require('../util/database').getDb;
 
 class User {
-  constructor(username, email, id) {
+  constructor(username, email, cart, id) {
     this.username = username;
     this.email = email;
+    this.cart = cart;
     this._id = id ? new mongodb.ObjectId(id) : null;
   }
 
@@ -24,6 +25,15 @@ class User {
       .catch(err => {
         console.log(err);
       });
+  }
+
+  addToCart(product) {
+    // const cartProduct = this.cart.items.findIndex(cp => {
+    //   return cp == product._id;
+    // });
+    const updateCart = { items: [{productId: new mongodb.ObjectId(product._id), quantity: 1}] };
+    const db = getDb();
+    return db.collection('users').updateOne({_id: this._id}, {$set: {cart: updateCart}});
   }
 
   static findById(userId) {
